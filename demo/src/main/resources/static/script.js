@@ -41,12 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (files.length) handleFile(files[0]);
     });
 
-    // Handle Click to Browse (delegated to hidden input)
-    dropZone.addEventListener('click', (e) => {
-        if (e.target.tagName !== 'BUTTON') { // Avoid double triggering if clicking the button directly
-            fileInput.click();
-        }
-    });
+    // Handle Click to Browse
+    // Note: The click listener on dropZone is removed to prevent conflict with the specific 'Browse' button
+    // The Browse button in HTML now calls onclick="document.getElementById('fileInput').click()" directly.
 
     // Handle File Input Change
     fileInput.addEventListener('change', (e) => {
@@ -78,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Validate size (e.g., max 5MB)
+        // Validate size (max 5MB)
         if (file.size > 5 * 1024 * 1024) {
             showStatus('File is too large. Max size is 5MB.', 'error');
             return;
@@ -110,11 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function setLoading(isLoading) {
         if (isLoading) {
             submitBtn.disabled = true;
-            btnText.textContent = 'Generating...';
+            btnText.textContent = 'Generating Magic...';
             spinner.classList.remove('hidden');
         } else {
             submitBtn.disabled = false;
-            btnText.textContent = 'Generate Portfolio';
+            btnText.textContent = 'Generate Website';
             spinner.classList.add('hidden');
         }
     }
@@ -122,10 +119,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- BACKEND INTEGRATION ---
     async function uploadFile(file) {
         setLoading(true);
-        showStatus('Analyzing resume and generating website... This may take up to 30 seconds.');
+        showStatus('Analyzing resume and designing layout...', 'neutral'); // UI feedback update
 
         const formData = new FormData();
-        // The key 'file' matches your Spring Boot @RequestParam("file")
         formData.append('file', file); 
 
         try {
@@ -135,34 +131,27 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                // 1. Get the binary data (blob)
                 const blob = await response.blob();
-                
-                // 2. Create a temporary URL for the blob
                 const downloadUrl = window.URL.createObjectURL(blob);
-                
-                // 3. Create a hidden link element to trigger the download
                 const a = document.createElement('a');
                 a.style.display = 'none';
                 a.href = downloadUrl;
-                a.download = 'portfolio_website.zip'; // Default filename
+                a.download = 'portfolio_website.zip'; 
                 
-                // 4. Append to body, click, and cleanup
                 document.body.appendChild(a);
                 a.click();
                 
                 window.URL.revokeObjectURL(downloadUrl);
                 document.body.removeChild(a);
 
-                showStatus('Success! Portfolio downloaded.', 'success');
+                showStatus('Success! Portfolio generated and downloaded.', 'success');
             } else {
-                // If backend sends text error
                 const errorText = await response.text();
                 showStatus('Error: ' + errorText, 'error');
             }
         } catch (error) {
             console.error('Upload error:', error);
-            showStatus('Connection failed. Is the backend running?', 'error');
+            showStatus('Connection failed. Please check backend server.', 'error');
         } finally {
             setLoading(false);
         }

@@ -25,15 +25,9 @@ public class AiGenerationService {
         this.chatLanguageModel = chatLanguageModel;
     }
 
-    /**
-     * Orchestrates the 2-step generation process:
-     * 1. Analyze Resume -> Create Specification
-     * 2. Use Specification -> Generate HTML/CSS/JS
-     */
     @SuppressWarnings("removal")
     public ResponseDTO generatePortfolio(String resumeText) {
 
-        // --- STEP 1: Specification Extraction ---
         log.info("Step 1: Starting resume analysis and specification extraction.");
 
         List<ChatMessage> specMessages = new ArrayList<>();
@@ -62,7 +56,6 @@ public class AiGenerationService {
         log.debug("Generated Specification: {}", websiteSpec);
         log.info("Step 1 Complete: Specification extracted successfully.");
 
-        // --- STEP 2: Frontend Code Generation ---
         log.info("Step 2: Generating frontend code (HTML/CSS/JS).");
 
         List<ChatMessage> codeMessages = new ArrayList<>();
@@ -160,6 +153,7 @@ public class AiGenerationService {
         Response<AiMessage> codeResponse = chatLanguageModel.generate(codeMessages);
 
         log.info("Step 2 Complete: Frontend code generated.");
+        log.info("Step 3: Forwarding the Zip Folder.");
         return parseResponse(codeResponse.content().text());
     }
 
