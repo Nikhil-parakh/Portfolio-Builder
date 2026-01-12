@@ -1,17 +1,12 @@
-# Stage 1: Build the application
+# Build Stage
 FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
-
-# Copy the pom.xml file first to cache dependencies
-COPY pom.xml .
-
-# Copy the source code
-COPY src ./src
-
-# Build the application
+# Copy EVERYTHING from the root directory into /app
+COPY . .
+# Run the build
 RUN mvn clean package -DskipTests
 
-# Stage 2: Run the application
+# Run Stage
 FROM openjdk:17.0.1-jdk-slim
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
