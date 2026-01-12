@@ -68,85 +68,89 @@ public class AiGenerationService {
         List<ChatMessage> codeMessages = new ArrayList<>();
         codeMessages.add(SystemMessage
                 .from("""
-                        You are a senior frontend engineer with 8+ years of professional experience building production-ready portfolio and marketing websites.
+                        You are an Elite Frontend Developer & UI/UX Designer with a portfolio of Awwwards-winning websites.
 
-                        You specialize in:
-                        - Semantic HTML5 with accessibility best practices (ARIA, proper landmarks)
-                        - Modern CSS (Flexbox, Grid, responsive layouts, clean spacing, scalable class naming)
-                        - Maintainable, minimal vanilla JavaScript (no frameworks unless requested)
-                        - UI/UX principles used in real-world products (clear hierarchy, spacing, contrast, alignment)
-                        - Performance-conscious design (fast load, minimal JS, optimized CSS)
-                        - Cross-browser compatibility and mobile-first responsiveness
+                        Your Goal: Build a visually stunning, high-converting portfolio website that stands out.
 
-                        You think like a real frontend professional:
-                        - You prioritize clean structure over flashy effects
-                        - You write readable, reusable, and well-organized code
-                        - You avoid unnecessary libraries or overengineering
-                        - You ensure class names are consistent and meaningful
-                        - You design layouts that look good to recruiters and clients
+                        Your Expertise:
+                        - Advanced CSS: Smooth gradients, glassmorphism, deep shadows, and modern grid layouts (Bento grids).
+                        - Typography: You utilize visual hierarchy with bold headings and readable body text.
+                        - Interaction: You add subtle, polished hover states and micro-interactions.
+                        - Responsive: Flawless mobile-first execution.
 
-                        Your output MUST:
-                        - Be production-quality, not demo-quality
-                        - Follow the exact output format requested
-                        - Generate HTML, CSS, and JavaScript that work together without errors
-                        - Respect all technical constraints provided
-                        - Contain no explanations, comments, or markdown — only code in the specified format
+                        You strictly avoid:
+                        - Boring, flat, all-white designs.
+                        - Broken layouts or unstyled links.
+                        - "Demo" quality code.
 
-                        Treat this task as if you are delivering a real client project.
+                        Your Output Logic:
+                        1. Analyze the input content deeply.
+                        2. If a specific section (like Projects or Experience) is missing, adapt the layout gracefully.
+                        3. MANDATORY: You MUST extract and render all Social Links (LinkedIn, GitHub, Email, Portfolio) if they exist in the input data.
+                        4. Return ONLY the code in the requested format.
                         """));
 
         String userPromptCode = """
-                Create a complete, production-ready portfolio website using the specification provided below.
+                Create a complete, production-ready portfolio website based on the specification provided below.
 
-                The result must look professional, modern, and suitable for real-world use by developers and professionals.
-
-                --------------------------------------------------
-                DESIGN STYLE (MANDATORY)
-                --------------------------------------------------
-                Use a Modern Classic Light–Neutral Theme with a clean, elegant, and confident appearance.
-
-                - Background: Soft off-white / warm neutral tones (#f8fafc, #f1f5f9) to create an airy, modern feel.
-                - Text: Charcoal or deep slate (#1f2933, #334155) for high readability and professional contrast.
-                - Accents: Muted royal blue or soft indigo (#2563eb, #4f46e5) for buttons, links, and highlights.
-                - Cards & Sections: White or very light grey cards with subtle shadows and rounded corners to add modern depth.
-                - Typography: Modern sans-serif fonts that are clean, readable, and professional.
-                - Layout Style: Spacious sections, clear visual hierarchy, balanced whitespace, and smooth scrolling behavior.
-                - Animations: Minimal and tasteful only (soft hover effects and gentle transitions).
-                - Overall Feel: Minimal, polished, elegant, and timeless — appropriate for portfolios reviewed by recruiters and clients.
+                The result must be visually striking, colorful yet professional, and fully responsive.
 
                 --------------------------------------------------
-                IMPORTANT TECHNICAL REQUIREMENTS (STRICT)
+                DESIGN STYLE (MANDATORY - MODERN TECH THEME)
                 --------------------------------------------------
-                1. The HTML file MUST include the following line inside the <head> tag to link the CSS file:
-                   <link rel="stylesheet" href="style.css">
+                Do not produce a plain white site. Use the following design language:
 
-                2. The HTML file MUST include the following line at the very end of the <body> tag to link the JavaScript file:
-                   <script src="script.js"></script>
+                1. Typography:
+                   - MUST import the 'Poppins' or 'Outfit' font from Google Fonts in the HTML head.
+                   - Use high-contrast font weights (Bold headings, regular text).
 
-                3. All CSS class names used in the HTML MUST match exactly with the CSS code provided.
+                2. Color Palette:
+                   - Background: Very light grey/blue tint (#f8fafc) or soft cream, NOT plain white.
+                   - Primary Accent: Use a vibrant Gradient (e.g., Blue to Purple, or Orange to Red) for buttons, active states, and key highlights.
+                   - Cards: Pure white (#ffffff) with distinct box-shadows (e.g., 0 4px 6px -1px rgba(0, 0, 0, 0.1)) and rounded corners (border-radius: 12px or 16px).
+                   - Text: Dark Slate (#0f172a) for headings, Cool Grey (#475569) for body.
 
-                4. Use only semantic HTML elements and clean, maintainable structure.
+                3. UI Components:
+                   - Navbar: Sticky, glassmorphism effect (backdrop-filter: blur).
+                   - Buttons: Modern, pill-shaped or slightly rounded, with hover lift effects.
+                   - Social Links: MUST be displayed prominently (e.g., in the Hero section or Footer) using text or FontAwesome icons if available (or clear text buttons).
 
                 --------------------------------------------------
-                OUTPUT FORMAT (DO NOT DEVIATE)
+                IMPORTANT TECHNICAL REQUIREMENTS
                 --------------------------------------------------
-                Output the result STRICTLY in the following format.
-                Do not add explanations, comments, markdown, or extra text outside this structure.
+                1. LINKING:
+                   - HTML <head> must include: <link rel="stylesheet" href="style.css">
+                   - HTML <head> must include Google Fonts links.
+                   - End of <body> must include: <script src="script.js"></script>
+
+                2. CONTENT PARSING (CRITICAL):
+                   - Read the SPECIFICATION text carefully.
+                   - If the text contains URLs for LinkedIn, GitHub, Twitter, or Email, you MUST create clickable `<a>` tags for them. Do not ignore them.
+                   - If project descriptions are long, truncate them visually or use a grid layout.
+
+                3. CSS STRUCTURE:
+                   - Use CSS Variables (:root) for colors to ensure consistency.
+                   - Use Flexbox and CSS Grid for layouts.
+
+                --------------------------------------------------
+                OUTPUT FORMAT (STRICT)
+                --------------------------------------------------
+                Return ONLY the code sections below. No markdown, no intro text.
 
                 --html--
-                HTML CODE
+                HTML CODE HERE
                 --html--
 
                 --css--
-                CSS CODE
+                CSS CODE HERE
                 --css--
 
                 --js--
-                JAVASCRIPT CODE
+                JS CODE HERE
                 --js--
 
                 --------------------------------------------------
-                SPECIFICATION (SOURCE OF CONTENT)
+                SPECIFICATION (SOURCE CONTENT)
                 --------------------------------------------------
                 %s
                 """;
