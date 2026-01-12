@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- CONFIGURATION ---
-    const API_URL = 'http://localhost:8080/api/portfolio/generate';
+    // ✅ Using your new Live Backend URL
+const API_URL = 'https://portfolio-builder-3-0lhs.onrender.com/api/portfolio/generate';
     
     // --- ELEMENTS ---
     const dropZone = document.getElementById('dropZone');
