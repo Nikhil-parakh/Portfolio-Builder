@@ -227,6 +227,10 @@ body {
     position: relative;
     overflow: hidden;
     transition: transform 0.2s, opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
 }
 
 .submit-btn:hover:not(:disabled) {
@@ -238,12 +242,13 @@ body {
 
 /* Button Spinner */
 .spinner {
-    width: 20px; height: 20px;
+    width: 20px;
+    height: 20px;
     border: 3px solid rgba(255,255,255,0.3);
     border-radius: 50%;
     border-top-color: #fff;
     animation: spin 1s linear infinite;
-    position: absolute; right: 20px;
+    flex-shrink: 0;
 }
 .submit-btn .btn-text { z-index: 1; }
 
