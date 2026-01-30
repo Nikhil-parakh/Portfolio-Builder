@@ -26,7 +26,7 @@ public class GeminiDetails {
         }
 
         log.info("Initializing Gemini ChatLanguageModel with model: {}", GEMINI_MODEL);
-
+        System.out.println("DEBUG: USING MODEL -> " + GEMINI_MODEL);
         return GoogleAiGeminiChatModel.builder()
                 .apiKey(apiKey)
                 .modelName(GEMINI_MODEL)
