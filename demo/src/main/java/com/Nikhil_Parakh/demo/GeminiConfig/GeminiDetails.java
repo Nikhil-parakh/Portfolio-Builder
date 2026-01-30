@@ -12,7 +12,7 @@ public class GeminiDetails {
 
     private static final Logger log = LoggerFactory.getLogger(GeminiDetails.class);
 
-    private static final String GEMINI_MODEL = "gemini-flash-latest";
+    private static final String GEMINI_MODEL = "gemini-2.5-flash-lite";
 
     @Bean
     public ChatLanguageModel chatLanguageModel() {
